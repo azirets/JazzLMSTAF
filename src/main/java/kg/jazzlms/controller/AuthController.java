@@ -1,5 +1,6 @@
 package kg.jazzlms.controller;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
@@ -29,6 +30,7 @@ public class AuthController {
                 .contentType(ContentType.JSON)
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured())
                 .body(new LoginRequest(username, password))
                 .post(LOGIN);
     }
@@ -44,6 +46,7 @@ public class AuthController {
                 .contentType(ContentType.JSON)
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured())
                 .body(body)
                 .post(LOGIN);
     }
@@ -55,6 +58,7 @@ public class AuthController {
                 .contentType(ContentType.JSON)
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured())
                 .body(JsonUtils.toJson(request))
                 .post(AUTH_REGISTER);
     }
@@ -65,6 +69,7 @@ public class AuthController {
                 .baseUri(url)
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured())
                 .get(AUTH_SETTINGS);
     }
 
@@ -73,6 +78,7 @@ public class AuthController {
                 .baseUri(url)
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured())
                 .header("Authorization", "Bearer " + token)
                 .get(ME);
     }
@@ -84,6 +90,7 @@ public class AuthController {
                 .contentType(ContentType.JSON)
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured())
                 .header("Authorization", "Bearer " + token)
                 .body(JsonUtils.toJson(request))
                 .post(AUTH_PASSWORD);
@@ -96,6 +103,7 @@ public class AuthController {
                 .contentType(ContentType.JSON)
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured())
                 .header("Authorization", "Bearer " + token)
                 .post(String.format(AUTH_IMPERSONATE, userId));
     }

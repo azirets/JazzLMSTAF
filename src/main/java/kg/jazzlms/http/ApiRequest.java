@@ -1,5 +1,6 @@
 package kg.jazzlms.http;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
@@ -32,7 +33,8 @@ public class ApiRequest {
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + token)
                 .filter(new RequestLoggingFilter())
-                .filter(new ResponseLoggingFilter());
+                .filter(new ResponseLoggingFilter())
+                .filter(new AllureRestAssured());
     }
 
     private static synchronized String getToken(String url) {
