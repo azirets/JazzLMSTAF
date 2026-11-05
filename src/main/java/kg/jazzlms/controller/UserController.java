@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static kg.jazzlms.constants.Endpoints.USERS;
-import static kg.jazzlms.constants.Endpoints.USERS_ID;
+import static kg.jazzlms.constants.Endpoints.*;
 
 public class UserController extends ApiRequest {
 
@@ -52,5 +51,52 @@ public class UserController extends ApiRequest {
 
     public Response deleteUserResponse(UUID id) {
         return delete(String.format(USERS_ID, id));
+    }
+
+    public Response getUserByIdResponse(Object id) {
+        return get(String.format(USERS_ID, id));
+    }
+
+    /** GET /api/users?search=&active= — передаём только те параметры, что нужны */
+    public Response getUsersResponse(Map<String, ?> queryParams) {
+        return get(USERS, queryParams);
+    }
+
+    public Response getUsersResponse() {
+        return get(USERS);
+    }
+
+    /** PUT с произвольным id (например "abc") и сырым телом */
+    public Response updateUserRaw(Object id, String body) {
+        return put(String.format(USERS_ID, id), body);
+    }
+
+    public Response deleteUserResponse(Object id) {
+        return delete(String.format(USERS_ID, id));
+    }
+
+    public Response statsResponse() {
+        return get(USERS_STATS);
+    }
+
+    public Response exportResponse() {
+        return get(USERS_EXPORT);
+    }
+
+    public Response exportResponse(Map<String, ?> queryParams) {
+        return get(USERS_EXPORT, queryParams);
+    }
+
+    /** POST /api/users/import — multipart, файл в поле "file" */
+    public Response importResponse(java.io.File file) {
+        return postFile(USERS_IMPORT, file);
+    }
+
+    public Response userGroupsResponse(Object userId) {
+        return get(String.format(USERS_GROUPS, userId));
+    }
+
+    public Response userBranchesResponse(Object userId) {
+        return get(String.format(USERS_BRANCHES, userId));
     }
 }

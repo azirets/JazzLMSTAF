@@ -87,4 +87,19 @@ public class ApiRequest {
         this.response = given().spec(requestSpecification).delete(endpoint);
         return this.response;
     }
+
+    /** GET с query-параметрами (search, active и т.п.) */
+    public Response get(String endpoint, java.util.Map<String, ?> queryParams) {
+        this.response = given().spec(requestSpecification).queryParams(queryParams).get(endpoint);
+        return this.response;
+    }
+
+    /** POST multipart/form-data с одним файлом в поле "file" */
+    public Response postFile(String endpoint, java.io.File file) {
+        this.response = given().spec(requestSpecification)
+                .contentType(ContentType.MULTIPART)
+                .multiPart("file", file)
+                .post(endpoint);
+        return this.response;
+    }
 }

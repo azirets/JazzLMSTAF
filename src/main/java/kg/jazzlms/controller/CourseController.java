@@ -58,7 +58,7 @@ public class CourseController extends ApiRequest {
 
     // ---------- read ----------
 
-    public Response getCourseByIdResponse(UUID id) {
+    public Response getCourseByIdResponse(Object id) {
         return get(String.format(COURSES_ID, id));
     }
 
@@ -78,19 +78,19 @@ public class CourseController extends ApiRequest {
     // ---------- delete ----------
 
     /** Мягкое удаление: создатель курса или админ */
-    public Response deleteCourseResponse(UUID id) {
+    public Response deleteCourseResponse(Object id) {
         return delete(String.format(COURSES_ID, id));
     }
 
     /** Окончательное удаление из корзины (только после мягкого, только админ) */
-    public Response deleteCoursePermanentlyResponse(UUID id) {
+    public Response deleteCoursePermanentlyResponse(Object id) {
         return delete(String.format(COURSES_PERMANENT, id));
     }
 
     // ---------- enrollments ----------
 
     /** Самозапись из каталога, роль всегда LEARNER */
-    public Response selfEnrollResponse(UUID courseId) {
+    public Response selfEnrollResponse(Object courseId) {
         return post(String.format(COURSES_SELF_ENROLL, courseId), "");
     }
 
@@ -109,12 +109,93 @@ public class CourseController extends ApiRequest {
         return Arrays.asList(get(ENROLLMENTS_MY).then().statusCode(200).extract().as(MyEnrollmentResponse[].class));
     }
 
-    public Response updateProgressResponse(UUID enrollmentId, int progress) {
+    public Response updateProgressResponse(Object enrollmentId, int progress) {
         return patch(String.format(ENROLLMENTS_PROGRESS, enrollmentId), JsonUtils.toJson(Map.of("progress", progress)));
     }
 
-    public Response unenrollResponse(UUID enrollmentId) {
+    public Response unenrollResponse(Object enrollmentId) {
         return delete(String.format(ENROLLMENTS_ID, enrollmentId));
+    }
+
+    // ---------- update / clone / restore / lists ----------
+
+    /** PUT /api/courses/{id} — полная замена: поля, которых нет в запросе, обнуляются */
+    public Response updateCourseResponse(Object id, CourseRequest request) {
+        return put(String.format(COURSES_ID, id), JsonUtils.toJson(request));
+    }
+
+    public Response updateCourseRaw(Object id, String body) {
+        return put(String.format(COURSES_ID, id), body);
+    }
+
+    public Response cloneCourseResponse(Object id) {
+        return post(String.format(COURSES_CLONE, id), "");
+    }
+
+    public Response restoreCourseResponse(Object id) {
+        return post(String.format(COURSES_RESTORE, id), "");
+    }
+
+    public Response getCoursesResponse() {
+        return get(COURSES);
+    }
+
+    public Response searchCoursesResponse(String search) {
+        return get(COURSES, Map.of("search", search));
+    }
+
+    public Response deletedCoursesResponse() {
+        return get(COURSES_DELETED);
+    }
+
+    public Response courseStatsResponse() {
+        return get(COURSES_STATS);
+    }
+
+    public Response courseFilesResponse(Object id) {
+        return get(String.format(COURSES_FILES, id));
+    }
+
+    public Response reportUsersResponse(Object id) {
+        return get(String.format(COURSES_REPORT_USERS, id));
+    }
+
+    public Response reportOverviewResponse(Object id) {
+        return get(String.format(COURSES_REPORT_OVERVIEW, id));
+    }
+
+    public Response reportMatrixResponse(Object id) {
+        return get(String.format(COURSES_REPORT_MATRIX, id));
+    }
+
+    // ---------- enrollments: дополнительные ----------
+
+    public Response courseEnrollmentsResponse(Object courseId) {
+        return get(String.format(COURSES_ENROLLMENTS, courseId));
+    }
+
+    public Response enrollRawResponse(Object courseId, String body) {
+        return post(String.format(COURSES_ENROLLMENTS, courseId), body);
+    }
+
+    public Response myEnrollmentsResponse() {
+        return get(ENROLLMENTS_MY);
+    }
+
+    public Response myEnrollmentsResponse(String role) {
+        return get(ENROLLMENTS_MY, Map.of("role", role));
+    }
+
+    public Response myEnrollmentStatsResponse() {
+        return get(ENROLLMENTS_MY_STATS);
+    }
+
+    public Response userEnrollmentsResponse(Object userId) {
+        return get(String.format(ENROLLMENTS_USER, userId));
+    }
+
+    public Response updateProgressRaw(Object enrollmentId, String body) {
+        return patch(String.format(ENROLLMENTS_PROGRESS, enrollmentId), body);
     }
 
     // ---------- categories (нужны для categoryId) ----------
