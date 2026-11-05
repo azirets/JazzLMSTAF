@@ -80,6 +80,16 @@ public class EntityManager {
                         Map.of("text", "Wrong", "correct", false))));
     }
 
+    /** Правило уведомления с обязательными полями: на создание пользователя, получатель — сам пользователь */
+    public static NotificationRuleRequest.NotificationRuleRequestBuilder ruleBuilder() {
+        return NotificationRuleRequest.builder()
+                .name("Rule " + shortId())
+                .eventType("USER_CREATED")
+                .recipient("RELATED_USER")
+                .subjectTemplate("Subject {{firstName}}")
+                .bodyTemplate("Body {{firstName}} {{lastName}}");
+    }
+
     /** Курс только с обязательным полем name (+ уникальный code) */
     public static CourseRequest.CourseRequestBuilder courseBuilder() {
         String suffix = UUID.randomUUID().toString().substring(0, 8);
