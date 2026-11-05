@@ -19,7 +19,7 @@ public class UserGamificationResponse {
     private boolean enabled;
     private int points;
     private int level;
-    private int nextLevelPoints;
+    private Integer nextLevelPoints;   // null, если уровни выключены или выключено правило "по очкам"
     private int logins;
     private int units;
     private int courses;
