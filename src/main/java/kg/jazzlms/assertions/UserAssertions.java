@@ -1,5 +1,6 @@
 package kg.jazzlms.assertions;
 
+import io.restassured.internal.common.assertion.Assertion;
 import io.restassured.response.Response;
 import kg.jazzlms.models.request.UserRequest;
 import kg.jazzlms.models.response.LoginResponse;
