@@ -14,6 +14,10 @@ import kg.jazzlms.models.response.LoginResponse;
 import static io.restassured.RestAssured.given;
 
 public class ApiRequest {
+    static {
+        HttpSetup.init();
+    }
+
     protected String url;
     protected RequestSpecification requestSpecification;
     protected Response response;

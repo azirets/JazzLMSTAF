@@ -72,7 +72,8 @@ public abstract class GamificationE2ESupport {
 
     @AfterEach
     void restoreSettings() {
-        GAMIFICATION.updateSettingsResponse(original);
+        Response restored = GAMIFICATION.updateSettingsResponse(original);
+        assertEquals(200, restored.statusCode(), "Не удалось вернуть настройки геймификации как были: " + restored.asString());
     }
 
     @AfterAll

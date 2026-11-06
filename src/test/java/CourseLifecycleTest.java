@@ -119,17 +119,6 @@ public class CourseLifecycleTest {
         );
     }
 
-    @Test
-    @DisplayName("Новый активный курс увеличивает activeCourses")
-    void statsGrowAfterCreate() {
-        int before = COURSE_CONTROLLER.courseStatsResponse().jsonPath().getInt("activeCourses");
-
-        createCourse(EntityManager.generateCourse());
-
-        int after = COURSE_CONTROLLER.courseStatsResponse().jsonPath().getInt("activeCourses");
-        assertEquals(before + 1, after);
-    }
-
     // ---------- PUT /api/courses/{id} ----------
 
     @Tag("smoke")

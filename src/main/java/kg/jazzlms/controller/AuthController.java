@@ -18,6 +18,10 @@ import static kg.jazzlms.constants.Endpoints.*;
 /** /api/auth/** — логин публичный, поэтому без токена в конструкторе */
 public class AuthController {
 
+    static {
+        kg.jazzlms.http.HttpSetup.init();
+    }
+
     private final String url;
 
     public AuthController(String url) {

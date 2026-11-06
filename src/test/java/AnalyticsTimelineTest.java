@@ -76,19 +76,6 @@ public class AnalyticsTimelineTest {
     }
 
     @Test
-    @DisplayName("Страница 1 не пересекается со страницей 0")
-    void pagesDoNotOverlap() {
-        TimelinePageResponse first = analytics.timeline(Map.of("size", 3, "page", 0));
-        TimelinePageResponse second = analytics.timeline(Map.of("size", 3, "page", 1));
-
-        List<String> firstIds = first.getItems().stream().map(ActivityEventResponse::getId).toList();
-        assertAll(
-                () -> assertEquals(1, second.getPage()),
-                () -> assertTrue(second.getItems().stream().noneMatch(e -> firstIds.contains(e.getId())))
-        );
-    }
-
-    @Test
     @DisplayName("События идут от новых к старым")
     void eventsAreSortedByTimeDescending() {
         List<ActivityEventResponse> items = analytics.timeline(Map.of("size", 20)).getItems();

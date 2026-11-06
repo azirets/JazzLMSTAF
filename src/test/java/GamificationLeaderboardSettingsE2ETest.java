@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import io.restassured.response.Response;
 import kg.jazzlms.models.request.GamificationSettings;
 import kg.jazzlms.models.request.GamificationSettings.Leaderboard;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @Tag("e2e")
 @DisplayName("E2E gamification: рейтинг — настройки в /config и поведение /leaderboard")
+@ResourceLock(value = "gamification-settings", mode = ResourceAccessMode.READ_WRITE)
 public class GamificationLeaderboardSettingsE2ETest extends GamificationE2ESupport {
 
     private void applyLeaderboard(Leaderboard leaderboard) {

@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import kg.jazzlms.models.request.GamificationSettings;
 import kg.jazzlms.models.request.GamificationSettings.Badges;
 import kg.jazzlms.models.response.UserGamificationResponse;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @Tag("e2e")
 @DisplayName("E2E gamification: бейджи — выключены все, по категориям")
+@ResourceLock(value = "gamification-settings", mode = ResourceAccessMode.READ_WRITE)
 public class GamificationBadgesE2ETest extends GamificationE2ESupport {
 
     private void applyBadges(Badges badges) {

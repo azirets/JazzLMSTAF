@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import io.restassured.response.Response;
 import kg.jazzlms.constants.Endpoints;
 import kg.jazzlms.controller.GamificationController;
@@ -16,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Настройки геймификации общие на всё окружение: перед каждым тестом запоминаем их, после — возвращаем */
 @Tag("regression")
 @DisplayName("Gamification service: настройки, config и rules")
+@ResourceLock(value = "gamification-settings", mode = ResourceAccessMode.READ_WRITE)
 public class GamificationSettingsTest {
 
     private final GamificationController gamification = new GamificationController(Endpoints.GAMIFICATION_URL);
@@ -28,7 +31,8 @@ public class GamificationSettingsTest {
 
     @AfterEach
     void restoreSettings() {
-        gamification.updateSettingsResponse(original);
+        Response restored = gamification.updateSettingsResponse(original);
+        assertEquals(200, restored.statusCode(), "Не удалось вернуть настройки геймификации как были: " + restored.asString());
     }
 
     /** Копия текущих настроек с другим правилом начисления за вход */

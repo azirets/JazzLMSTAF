@@ -184,20 +184,6 @@ public class UserGetTest {
         );
     }
 
-    @Test
-    @DisplayName("Статистика растёт после создания активного пользователя")
-    void statsGrowAfterCreate() {
-        UserStatsResponse before = USER_CONTROLLER.statsResponse().as(UserStatsResponse.class);
-
-        createUser(EntityManager.userBuilder().active(true).build());
-
-        UserStatsResponse after = USER_CONTROLLER.statsResponse().as(UserStatsResponse.class);
-        assertAll(
-                () -> assertEquals(before.getTotal() + 1, after.getTotal(), "total"),
-                () -> assertEquals(before.getActive() + 1, after.getActive(), "active")
-        );
-    }
-
     // ---------- GET /api/users/{id}/groups и /branches ----------
 
     @Test

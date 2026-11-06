@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import io.restassured.response.Response;
 import kg.jazzlms.controller.AuthController;
 import kg.jazzlms.models.response.UserGamificationResponse;
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @Tag("e2e")
 @DisplayName("E2E gamification: геймификация выключена (enabled = false)")
+@ResourceLock(value = "gamification-settings", mode = ResourceAccessMode.READ_WRITE)
 public class GamificationDisabledE2ETest extends GamificationE2ESupport {
 
     private void disable() {

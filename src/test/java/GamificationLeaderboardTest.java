@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import io.restassured.response.Response;
 import kg.jazzlms.constants.Endpoints;
 import kg.jazzlms.controller.GamificationController;
@@ -16,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("regression")
 @DisplayName("Gamification service: рейтинг (/api/gamification/leaderboard)")
+@ResourceLock(value = "gamification-settings", mode = ResourceAccessMode.READ)
 public class GamificationLeaderboardTest {
 
     private final GamificationController gamification = new GamificationController(Endpoints.GAMIFICATION_URL);

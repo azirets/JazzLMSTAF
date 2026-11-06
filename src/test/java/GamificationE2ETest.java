@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import io.restassured.response.Response;
 import kg.jazzlms.constants.Endpoints;
 import kg.jazzlms.controller.AuthController;
@@ -51,6 +53,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("E2E: gamification — очки за вход, уроки, тест, курс и сертификат")
+@ResourceLock(value = "gamification-settings", mode = ResourceAccessMode.READ)
 public class GamificationE2ETest {
 
     private static final int WAIT_SECONDS = 15;

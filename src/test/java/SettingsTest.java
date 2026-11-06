@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.parallel.Isolated;
 import io.restassured.response.Response;
 import kg.jazzlms.constants.Endpoints;
 import kg.jazzlms.controller.AuthController;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Настройки одни на весь сайт: перед каждым тестом запоминаем их, после — возвращаем как были */
 @Tag("regression")
 @DisplayName("User service: настройки (/api/settings)")
+@Isolated
 public class SettingsTest {
 
     private final SettingsController settingsController = new SettingsController(Endpoints.BASE_URL);
@@ -35,7 +37,8 @@ public class SettingsTest {
 
     @AfterEach
     void restoreSettings() {
-        settingsController.updateSettingsResponse(original);
+        Response restored = settingsController.updateSettingsResponse(original);
+        assertEquals(200, restored.statusCode(), "Не удалось вернуть настройки как были: " + restored.asString());
     }
 
     // ---------- GET ----------

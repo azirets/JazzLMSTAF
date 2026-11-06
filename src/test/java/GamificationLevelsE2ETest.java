@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import kg.jazzlms.models.request.GamificationSettings;
 import kg.jazzlms.models.request.GamificationSettings.LevelRule;
 import kg.jazzlms.models.request.GamificationSettings.Levels;
@@ -24,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @Tag("e2e")
 @DisplayName("E2E gamification: уровни — выключены, по очкам, по курсам, по бейджам, комбинации")
+@ResourceLock(value = "gamification-settings", mode = ResourceAccessMode.READ_WRITE)
 public class GamificationLevelsE2ETest extends GamificationE2ESupport {
 
     private static LevelRule on(int every) {
